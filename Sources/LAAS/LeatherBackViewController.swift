@@ -50,6 +50,20 @@ public class LeatherBackViewController: UIViewController, WKUIDelegate {
             delayForDismissals(message: "Enter your public key")
             return
         }
+        ////transaction-successful transaction-failed
+        ///
+        if let ref = param.reference {
+            guard !ref.contains("transaction-successful") else {
+                delayForDismissals(message: "transaction-successful cannot be used as transaction reference")
+                return
+            }
+            
+            guard !ref.contains("transaction-failed") else {
+                delayForDismissals(message: "transaction-failed cannot be used as transaction reference")
+                return
+            }
+        }
+       
         if !param.showPersonalInformation {
             guard param.customerName != nil else {
                 delayForDismissals(message: "Customer's Name is required whenever show personal information flag is set to false")
@@ -209,7 +223,7 @@ extension LeatherBackViewController: WKNavigationDelegate {
     
     private func handleRedirectURL(url: URL){
         let absoluteString = url.absoluteString.lowercased()
-        if absoluteString.contains("/transaction-failed".lowercased()){
+        if absoluteString.contains("transaction-failed".lowercased()){
             var error = LeatherBackErrorResponse.genericError
             if let message = url.queryParameters?["message"] as? String{
                 error = LeatherBackErrorResponse(message: message)
@@ -218,7 +232,7 @@ extension LeatherBackViewController: WKNavigationDelegate {
             delegate.onLeatherBackError(error: error)
         }
         
-        if absoluteString.contains("/transaction-successful".lowercased()){
+        if absoluteString.contains("transaction-successful".lowercased()){
             guard let refId = url.queryParameters?["refId"] as? String else{
                 self.dismiss(animated: true, completion: nil)
                 delegate.onLeatherBackError(error: LeatherBackErrorResponse.genericError)
