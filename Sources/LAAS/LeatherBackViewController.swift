@@ -238,8 +238,11 @@ extension LeatherBackViewController: WKNavigationDelegate {
                 delegate.onLeatherBackError(error: LeatherBackErrorResponse.genericError)
                 return
             }
-            self.dismiss(animated: true, completion: nil)
-            delegate.onLeatherBackSuccess(response: LeatherBackResponse(reference: refId))
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {[weak self] in
+                self?.dismiss(animated: true, completion: nil)
+                self?.delegate.onLeatherBackSuccess(response: LeatherBackResponse(reference: refId))
+            }
+           
         }
     }
 }
