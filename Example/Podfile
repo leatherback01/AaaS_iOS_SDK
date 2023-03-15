@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '10.0'
+
+target 'LAAS_Example' do
+  pod 'LAAS', :path => '../'
+
+  target 'LAAS_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
