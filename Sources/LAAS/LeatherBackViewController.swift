@@ -141,6 +141,7 @@ public class LeatherBackViewController: UIViewController, WKUIDelegate {
         
         let cancelButton = UIButton()
         cancelButton.setTitle("✕", for: .normal)
+        cancelButton.setTitleColor(.white, for: .normal)
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(cancelButton)
         cancelButton.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 10).isActive = true
