@@ -127,19 +127,20 @@ public class LeatherBackViewController: UIViewController, WKUIDelegate {
         headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         headerView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         headerView.backgroundColor = UIColor(red: 0/255, green: 62/255, blue: 255/255, alpha: 1)
-        let cancelIcon = UIImageView(image: UIImage.resourceImage(named: "Close_leather_back")?.withRenderingMode(.alwaysTemplate))
-        cancelIcon.tintColor = .white
+       // let cancelIcon = UIImageView(image: UIImage.resourceImage(named: "Close_leather_back")?.withRenderingMode(.alwaysTemplate))
+      //  cancelIcon.tintColor = .white
         
-        cancelIcon.translatesAutoresizingMaskIntoConstraints = false
-        headerView.addSubview(cancelIcon)
+      //  cancelIcon.translatesAutoresizingMaskIntoConstraints = false
+     //   headerView.addSubview(cancelIcon)
         headerView.addSubview(progressView)
         progressView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
         progressView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor).isActive = true
         progressView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor).isActive = true
-        cancelIcon.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 10).isActive = true
-        cancelIcon.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+      //  cancelIcon.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 10).isActive = true
+      //  cancelIcon.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
         
         let cancelButton = UIButton()
+        cancelButton.setTitle("✕", for: .normal)
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(cancelButton)
         cancelButton.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 10).isActive = true
