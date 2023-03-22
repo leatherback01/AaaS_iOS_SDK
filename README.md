@@ -25,7 +25,7 @@ Get the latest version of LAAS via SPM.
 
 Go to File -> Swift Packages -> Add Package Dependency... 
 
-Then enter the URL for this package `https://github.com/Promise Ochornma/LAAS.git` and select the most recent version.
+Then enter the URL for this package `https://github.com/leatherback01/AaaS_iOS_SDK.git` and select the most recent version.
 
 ## Usage
 
@@ -35,14 +35,14 @@ import LAAS
 ```
 
 ```swift
-let param = LeatherBackTransactionParam(amount: 10.00, currencyCode: .GBP, showPersonalInformation: true, reference: "your unique reference number", key: "your public key")
+let param = LeatherBackTransactionParam(amount: 10.00, currencyCode: .GBP, showPersonalInformation: true, reference: "your unique reference number", key: "your public key", isProducEnv: false)
 let paymentVC = LeatherBackViewController(delegate: self, param: param)
 present(paymentVC, animated: true)
 
 ```
 
 ```swift
-let param = LeatherBackTransactionParam(amount: 10.00, currencyCode: .GBP, showPersonalInformation: false, reference:  "your unique reference number", customerEmail: "johndoe@leatherback.co", customerName: "John Doe", key: "your public key")
+let param = LeatherBackTransactionParam(amount: 10.00, currencyCode: .GBP, showPersonalInformation: false, reference:  "your unique reference number", customerEmail: "johndoe@leatherback.co", customerName: "John Doe", key: "your public key", isProducEnv: false)
 let paymentVC = LeatherBackViewController(delegate: self, param: param)
 present(paymentVC, animated: true)
 
