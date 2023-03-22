@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Sources/LAAS/**/*'
   
- #  s.resource_bundles = {
+   #s.resource_bundles = {
     # 'LAAS' => ['Sources/Assets/*.xcassets']
   # }
 

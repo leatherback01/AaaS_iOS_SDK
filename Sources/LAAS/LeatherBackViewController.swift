@@ -161,7 +161,7 @@ public class LeatherBackViewController: UIViewController, WKUIDelegate {
         }
         
         if let key = change?[NSKeyValueChangeKey.newKey] {
-            print("observeValue \(key)") // url value
+        //    print("observeValue \(key)") // url value
             let urlString = "\(key)"
             if let url = URL(string: urlString){
                 handleRedirectURL(url: url)

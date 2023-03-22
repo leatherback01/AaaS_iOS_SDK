@@ -46,7 +46,7 @@ extension URL {
             let components = URLComponents(url: self, resolvingAgainstBaseURL: true),
             let queryItems = components.queryItems else { return nil }
         return queryItems.reduce(into: [String: String]()) { (result, item) in
-            print("the query name \(item.name)")
+          //  print("the query name \(item.name)")
             result[item.name] = item.value
         }
     }
