@@ -12,6 +12,7 @@ public class LeatherBackViewController: UIViewController, WKUIDelegate {
     
     let webView = WKWebView()
     var headerView = UIView()
+    var testLabel = UILabel()
     var progressView = UIProgressView()
     var delegate: LeatherBackDelegate
     var baseURL: String
@@ -88,7 +89,6 @@ public class LeatherBackViewController: UIViewController, WKUIDelegate {
             return
             
         }
-       
         if let theUrlValue = URL(string: "\(baseURL)\(base64)"){
             let theRequest = URLRequest(url: theUrlValue)
             webView.configuration.preferences.javaScriptEnabled = true
@@ -117,8 +117,25 @@ public class LeatherBackViewController: UIViewController, WKUIDelegate {
             webView.navigationDelegate = self
         }
     
+    private func addPopUpWebView(configuration: WKWebViewConfiguration) -> WKWebView {
+        let webView = WKWebView(frame: view.bounds, configuration: configuration)
+            webView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(webView)
+            webView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
+            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+            
+            webView.uiDelegate = self
+            webView.navigationDelegate = self
+            webView.allowsBackForwardNavigationGestures = true
+        return webView
+        }
+    
     
     private func addHeaderView() {
+        testLabel.translatesAutoresizingMaskIntoConstraints = false
+        testLabel.isHidden = true
         headerView.translatesAutoresizingMaskIntoConstraints = false
         progressView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(headerView)
@@ -127,21 +144,25 @@ public class LeatherBackViewController: UIViewController, WKUIDelegate {
         headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         headerView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         headerView.backgroundColor = UIColor(red: 0/255, green: 62/255, blue: 255/255, alpha: 1)
-       // let cancelIcon = UIImageView(image: UIImage.resourceImage(named: "Close_leather_back")?.withRenderingMode(.alwaysTemplate))
-      //  cancelIcon.tintColor = .white
-        
-      //  cancelIcon.translatesAutoresizingMaskIntoConstraints = false
-     //   headerView.addSubview(cancelIcon)
+        headerView.addSubview(testLabel)
         headerView.addSubview(progressView)
         progressView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
         progressView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor).isActive = true
         progressView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor).isActive = true
-      //  cancelIcon.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 10).isActive = true
-      //  cancelIcon.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        
+        testLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        testLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor).isActive = true
+        
+        testLabel.text = "Test Mode"
+        testLabel.textColor = .white
+        testLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
+        if !param.isProducEnv{
+            testLabel.isHidden = false
+        }
+    
         
         let cancelButton = UIButton()
         cancelButton.setTitle("✕", for: .normal)
-        cancelButton.setTitleColor(.white, for: .normal)
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(cancelButton)
         cancelButton.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 10).isActive = true
@@ -163,13 +184,22 @@ public class LeatherBackViewController: UIViewController, WKUIDelegate {
         }
         
         if let key = change?[NSKeyValueChangeKey.newKey] {
-        //    print("observeValue \(key)") // url value
+           //print("observeValue \(key)") // url value
             let urlString = "\(key)"
             if let url = URL(string: urlString){
                 handleRedirectURL(url: url)
             }
         }
     }
+    
+    public func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        return addPopUpWebView(configuration: configuration)
+    }
+    
+    public func webViewDidClose(_ webView: WKWebView) {
+        webView.removeFromSuperview()
+    }
+
     
     private func delayForDismissals(message: String? = nil) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {[weak self] in
@@ -214,12 +244,12 @@ extension LeatherBackViewController: WKNavigationDelegate {
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error){
         self.dismiss(animated: true, completion: nil)
-        delegate.onLeatherBackDimissal()
+        delegate.onLeatherBackError(error: LeatherBackErrorResponse(message: error.localizedDescription))
     }
     
     public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         self.dismiss(animated: true, completion: nil)
-        delegate.onLeatherBackDimissal()
+        delegate.onLeatherBackError(error: LeatherBackErrorResponse(message: error.localizedDescription))
     }
     
     
