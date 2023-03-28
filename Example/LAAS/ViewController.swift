@@ -55,8 +55,8 @@ class ViewController: UIViewController, LeatherBackDelegate {
     @objc func onPayTapped(){
         //input your public key
         //pk_test_c654aa13bgh6g7649gb380140fb86gc70a3a2fe
-        let reference = String((Date().timeIntervalSince1970 * 1000.0).rounded())
-        let param = LeatherBackTransactionParam(amount: 30.00, currencyCode: .NGN, showPersonalInformation: false, customerEmail: "johndoe@leatherback.co", customerName: "John Doe", key: "pk_test_8e1e5012b5h1195851978877b896414b89990gg", isProducEnv: false)
+        let reference = String(Int((Date().timeIntervalSince1970 * 1000.0).rounded()))
+        let param = LeatherBackTransactionParam(amount: 1.50, currencyCode: .GBP, channels: [.Card, .Account], showPersonalInformation: false, reference: reference, customerEmail: "johndoe@leatherback.co", customerName: "John Doe", key: "input your public key", isProducEnv: false)
         
         let paymentVC = LeatherBackViewController(delegate: self, param: param)
         //self.navigationController?.pushViewController(paymentVC, animated: true)
@@ -66,10 +66,9 @@ class ViewController: UIViewController, LeatherBackDelegate {
     
     @objc func onPayTappedWithInfoNotSupplied(){
         //input your public key
-        //pk_test_c654aa13bgh6g7649gb380140fb86gc70a3a2fe
-        //
-        let reference = String((Date().timeIntervalSince1970 * 1000.0).rounded())
-        let param = LeatherBackTransactionParam(amount: 30.00, currencyCode: .NGN, showPersonalInformation: false, customerEmail: "johndoe@leatherback.co", customerName: "John Doe", key: "pk_test_8e1e5012b5h1195851978877b896414b89990gg", isProducEnv: false)
+       
+        let reference = String(Int((Date().timeIntervalSince1970 * 1000.0).rounded()))
+        let param = LeatherBackTransactionParam(amount: 30.00, currencyCode: .NGN, channels: [.Card, .Account], showPersonalInformation: true, reference: reference, key: "input your public key", isProducEnv: false)
         
         let paymentVC = LeatherBackViewController(delegate: self, param: param)
        // self.navigationController?.pushViewController(paymentVC, animated: true)
