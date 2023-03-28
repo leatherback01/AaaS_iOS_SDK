@@ -21,7 +21,7 @@ public class LeatherBackViewController: UIViewController, WKUIDelegate {
     public init(delegate: LeatherBackDelegate, param: LeatherBackTransactionParam) {
         self.delegate = delegate
         self.param = param
-        baseURL = param.isProducEnv ? "https://pay.leatherback.co/popup/" : "https://app-aaaspaymentlink-dev.azurewebsites.net/popup/"
+        baseURL = param.isProducEnv ? "https://pay.leatherback.co" : "https://app-aaaspaymentlink-dev.azurewebsites.net"
         super.init(nibName: nil, bundle: nil)
         self.presentationController?.delegate = self
     }
@@ -89,7 +89,7 @@ public class LeatherBackViewController: UIViewController, WKUIDelegate {
             return
             
         }
-        if let theUrlValue = URL(string: "\(baseURL)\(base64)"){
+        if let theUrlValue = URL(string: "\(baseURL)/popup/\(base64)"){
             let theRequest = URLRequest(url: theUrlValue)
             webView.configuration.preferences.javaScriptEnabled = true
             webView.configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
@@ -125,7 +125,7 @@ public class LeatherBackViewController: UIViewController, WKUIDelegate {
             webView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
             webView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
             webView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-            
+            webView.addObserver(self, forKeyPath: #keyPath(WKWebView.url), options: .new, context: nil)
             webView.uiDelegate = self
             webView.navigationDelegate = self
             webView.allowsBackForwardNavigationGestures = true
@@ -255,7 +255,7 @@ extension LeatherBackViewController: WKNavigationDelegate {
     
     private func handleRedirectURL(url: URL){
         let absoluteString = url.absoluteString.lowercased()
-        if absoluteString.contains("transaction-failed".lowercased()){
+        if absoluteString.contains("transaction-failed".lowercased()) && absoluteString.contains(baseURL.lowercased()){
             var error = LeatherBackErrorResponse.genericError
             if let message = url.queryParameters?["message"] as? String{
                 error = LeatherBackErrorResponse(message: message)
@@ -264,7 +264,7 @@ extension LeatherBackViewController: WKNavigationDelegate {
             delegate.onLeatherBackError(error: error)
         }
         
-        if absoluteString.contains("transaction-successful".lowercased()){
+        if absoluteString.contains("transaction-successful".lowercased()) && absoluteString.contains(baseURL.lowercased()){
             guard let refId = url.queryParameters?["refId"] as? String else{
                 self.dismiss(animated: true, completion: nil)
                 delegate.onLeatherBackError(error: LeatherBackErrorResponse.genericError)
