@@ -35,14 +35,14 @@ import LAAS
 ```
 
 ```swift
-let param = LeatherBackTransactionParam(amount: 10.00, currencyCode: .GBP, showPersonalInformation: true, reference: "your unique reference number", key: "your public key", isProducEnv: false)
+let param = LeatherBackTransactionParam(amount: 1.50, currencyCode: .GBP, channels: [.Card, .Account], showPersonalInformation: true, reference: "your unique reference number", key: "your public key", isProducEnv: false)
 let paymentVC = LeatherBackViewController(delegate: self, param: param)
 present(paymentVC, animated: true)
 
 ```
 
 ```swift
-let param = LeatherBackTransactionParam(amount: 10.00, currencyCode: .GBP, showPersonalInformation: false, reference:  "your unique reference number", customerEmail: "johndoe@leatherback.co", customerName: "John Doe", key: "your public key", isProducEnv: false)
+let param = LeatherBackTransactionParam(amount: 1500.00, currencyCode: .NGN, channels: [.Card, .Account], showPersonalInformation: false, reference: "your unique reference number", customerEmail: "johndoe@leatherback.co", customerName: "John Doe", key: "your public key", isProducEnv: false)
 let paymentVC = LeatherBackViewController(delegate: self, param: param)
 present(paymentVC, animated: true)
 
