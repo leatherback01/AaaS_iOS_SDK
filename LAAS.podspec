@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'LAAS'
-  s.version          = '0.1.3'
+  s.version          = '0.1.4'
   s.summary          = 'An iOS library for accepting payment with LeatherBack.'
 
 
